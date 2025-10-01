@@ -1,13 +1,6 @@
 package Ljuslin.com;
 
 public class Printouts {
-    private final int boardSize = 3;
-    protected void chooseO() {
-        System.out.println("You choose O, computer has X");
-    }
-    protected void chooseX() {
-        System.out.println("You choose X, computer has O");
-    }
     protected  void incorrectChoice() {
         System.out.println("Incorrect choice, please try again");
     }
@@ -22,6 +15,9 @@ public class Printouts {
     }
     protected void placePiece() {
         System.out.print("in which field would you like to place your piece: ");
+    }
+    protected void movePiece() {
+        System.out.print("From which field would you like to move: ");
     }
     protected void playerWon() {
         System.out.println("Player has won!");
@@ -52,5 +48,4 @@ public class Printouts {
         }
         System.out.println();
     }
-
 }
