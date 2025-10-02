@@ -135,25 +135,38 @@ public class Methods {
                 count++;
             }
         }
+        int removedField = -1;
         int[] winMove = computerMoveAndWin(board);
         if (winMove[0] != -1) {
             int one = winMove[0];
             int two = winMove[1];
             if (piece1 == one) {
-                if (piece2 == two)
+                if (piece2 == two) {
                     removePiece(board, piece3 + 1);
-                else if (piece3 == two)
+                    removedField = piece3;
+                }
+                else if (piece3 == two) {
                     removePiece(board, piece2 + 1);
+                    removedField = piece2;
+                }
             } else if (piece2 == one) {
-                if (piece1 == two)
+                if (piece1 == two) {
                     removePiece(board, piece3 + 1);
-                else if (piece3 == two)
+                    removedField = piece3;
+                }
+                else if (piece3 == two) {
                     removePiece(board, piece1 + 1);
+                    removedField = piece1;
+                }
             } else { //piece 3 == one
-                if (piece1 == two)
+                if (piece1 == two) {
                     removePiece(board, piece2 + 1);
-                else if (piece2 == two)
+                    removedField = piece2;
+                }
+                else if (piece2 == two) {
                     removePiece(board, piece1 + 1);
+                    removedField = piece1;
+                }
             }
         } else {
             int[] notToMove1 = {-1, -1};
@@ -168,30 +181,49 @@ public class Methods {
             int notMove1 = notToMove1[0], notMove2 = notToMove2[0];
             if (notMove1 != -1 && notMove2 != -1) {
                 if (piece1 == notMove1) {
-                    if (piece2 == notMove2)
+                    if (piece2 == notMove2) {
                         removePiece(board, piece3 + 1);
-                    else if (piece3 == notMove2)
+                        removedField = piece3;
+                    }
+                    else if (piece3 == notMove2) {
                         removePiece(board, piece2 + 1);
+                        removedField = piece2;
+                    }
                 } else if (piece2 == notMove1) {
-                    if (piece1 == notMove2)
+                    if (piece1 == notMove2) {
                         removePiece(board, piece3 + 1);
-                    else if (piece3 == notMove2)
+                        removedField = piece3;
+                    }
+                    else if (piece3 == notMove2) {
                         removePiece(board, piece1 + 1);
+                        removedField = piece1;
+                    }
                 } else { //piece 3 == notMove1
-                    if (piece1 == notMove2)
+                    if (piece1 == notMove2) {
                         removePiece(board, piece2 + 1);
-                    else if (piece2 == notMove2)
+                        removedField = piece2;
+                    }
+                    else if (piece2 == notMove2) {
                         removePiece(board, piece1 + 1);
+                        removedField = piece1;
+                    }
                 }
             } else if (notMove1 != -1 && notMove2 == -1) {
-                if (piece1 == notMove1)
+                if (piece1 == notMove1) {
                     removePiece(board, piece2 + 1);
-                else if (piece2 == notMove1)
+                    removedField = piece2;
+                }
+                else if (piece2 == notMove1) {
                     removePiece(board, piece3 + 1);
-                else
+                    removedField = piece3;
+                }
+                else {
                     removePiece(board, piece1 + 1);
+                    removedField = piece1;
+                }
             } else {
                 removePiece(board, piece1 + 1);
+                removedField = piece1;
             }
         }
         int moveTo = computerMoveToBlock(board);
@@ -199,7 +231,7 @@ public class Methods {
         if (moveToWin != -1)
             moveTo = moveToWin;
         if (moveTo == -1) {
-            randomMove(board, computersPiece, playersPiece);
+            randomMoveWithCheck(board, computersPiece, playersPiece, removedField);
         } else {
             makeMove(board, computersPiece, moveTo + 1);
         }
@@ -521,6 +553,26 @@ public class Methods {
         while(true) {
             int field = random.nextInt(board.length);
             if (!(board[field] == playersPiece) && !(board[field] == computersPiece)) {
+                board[field] = computersPiece;
+                break;
+            }
+        }
+    }
+    /**
+     * Makes a random move for the computer
+     * @param board, the board to make move on
+     * @param computersPiece, the piece to set
+     * @param playersPiece, the players piece to check that the random move is not occupied by
+     *      player
+     * @param notField, the field not to move the piece to (0-8)
+     */
+    private void randomMoveWithCheck(char[] board, char computersPiece, char playersPiece,
+                                     int notField) {
+        Random random = new Random();
+        while(true) {
+            int field = random.nextInt(board.length);
+            if (!(board[field] == playersPiece) && !(board[field] == computersPiece) &&
+                    (notField != field)) {
                 board[field] = computersPiece;
                 break;
             }
